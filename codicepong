@@ -1,0 +1,135 @@
+import processing.sound.*;    //assicurati di avere questa libreria
+int stage;
+int punteggio1;
+int punteggio2;
+float posizioney1=200;
+float posizioney2=280;
+float xpalla=400;
+float ypalla=200;
+float muovipallay;
+float muovipallax;
+SoundFile punto;   //servono questi due suoni nella cartella dell'exe o crasha
+SoundFile rimba;
+void nuovapalla() {
+  xpalla=400;
+  ypalla=200;
+  xpalla=400;
+  ypalla=200;
+  muovipallay=random(5, 10);
+  int z=1;
+  if (millis()%2==0) {
+    z=z*-1;
+  }
+  muovipallax=random(3, 7)*z;
+}
+void menu() {
+stage=1;
+  background(0);
+  text("premi un tasto per iniziare", 100, 100);
+  text("W e S controllano p1, O e L controllano p2",100,300);
+  
+   if (keyPressed && stage==1) {
+    stage=2;
+    punteggio1=0;
+    punteggio2=0;
+    nuovapalla();}
+}
+
+void viagioco() {
+  background(0);
+  fill(255);
+  size(800, 400);
+  nuovapalla();
+  rect(20, posizioney1, 20, 100);
+  rect(400, 200, 20, 20);
+  rect(760, posizioney2, 20, 100);
+}
+
+void setup()
+{
+  stage=1;
+  rimba = new SoundFile(this, "rimba.wav"); //servono questi due suoni nella cartella dell'exe o crasha
+  punto = new SoundFile(this, "punto.wav");
+  rectMode(CENTER);
+  background(0);
+  fill(255);
+  size(800, 400);
+}
+void draw() {
+  if (stage==1) {
+    menu();
+  }
+   if (stage==2) {background(0);fill(255);
+    xpalla=xpalla+muovipallax;//per spostare la palla
+    ypalla=ypalla+muovipallay;
+    rectMode(CENTER);
+    text(punteggio2, 10, 30);     //punteggi
+    text(punteggio1, 680, 30);   
+    rect(xpalla, ypalla, 20, 20);
+    rect(20, posizioney1, 20, 100);
+    rect(780, posizioney2, 20, 100);
+
+    if (keyPressed == true && key == 's') {
+      posizioney1=posizioney1+7;
+    } else if (keyPressed == true && key == 'w') {
+      posizioney1=posizioney1-7;
+    }
+    if (keyPressed == true && key == 'l') {
+      posizioney2=posizioney2+7;
+    } else if (keyPressed == true && key == 'o') {
+      posizioney2=posizioney2-7;
+    }
+    float z= random(0.80, 1.20);
+    if (millis()%2==0) {
+      z=z*-1;
+    }
+
+    if (ypalla>400 || ypalla <0) {
+      muovipallay=-muovipallay;
+      rimba.play();
+    }
+    if (xpalla>760 && ((posizioney2+60)>ypalla && (posizioney2-60<ypalla))) {
+      muovipallax=-muovipallax;
+      muovipallay=muovipallay*z;
+      rimba.play();
+    };
+    if (xpalla<40 && ((posizioney1+60)>ypalla && (posizioney1-60<ypalla))) {
+      muovipallax=-muovipallax;
+      muovipallay=muovipallay*z;
+      rimba.play();
+    };//per rimbalzare sulla racchetta
+    if (xpalla<0) {
+      punteggio1++;
+      nuovapalla();
+      ;
+      punto.play();
+    }//fatto punto
+    if (xpalla>800) {
+      punteggio2++;
+      nuovapalla();
+      punto.play();
+    }
+    if (posizioney1>350) {
+      posizioney1=350;
+    }//bordi
+    if (posizioney2>350) {
+      posizioney2=350;
+    }
+    if (posizioney1<50) {
+      posizioney1=50;
+    }
+    if (posizioney2<50) {
+      posizioney2=50;
+    }
+  }
+  if (punteggio1==2){clear();
+  stage=1;
+ menu();
+  text("vince gioc 2",200,200);}
+    if (punteggio2==2){clear();
+  stage=1;
+ menu();
+  text("vince gioc 1",200,200);
+ 
+}
+}
