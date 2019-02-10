@@ -1,0 +1,73 @@
+Sweetiehoneybunny🍯🐰🐇:
+PImage imgpesce;
+pesce pesce1;
+pesce pesce2;
+pesce pesce3;
+pesce pesce4;
+pesce pesce5;
+pesce pesce6;
+class pesce {
+  float posx;
+  float posy;
+  float dimx;
+  float dimy;
+  float velx;
+  float vely;
+  float velopesce;
+  pesce(float tposx, float tposy, float tdimx, float tdimy, float tvelx, float tvely, float tvelopesce)
+  {
+    posx=tposx;
+    posy=tposy;
+    dimx=tdimx;
+    dimy=tdimy;
+    velx=tvelx;
+    vely=tvely;
+    velopesce=tvelopesce;
+  }
+  void mostra() {
+    image(imgpesce, posx, posy, dimx, dimy);
+  }
+  void muovi() {
+    posx=posx+velx;
+    posy=posy+vely;
+    if (posx>800||posx<0) {
+      velx=-velx;
+    }
+    if (posy>800||posy<0) {
+      vely=-vely;
+    }
+  }
+}
+
+/*void randpesce(char n[]){
+  
+}*/
+void setup() {
+  imageMode(CENTER);
+  size (800, 800);
+  imgpesce=loadImage("pescio.jpg");
+  pesce1 = new pesce (random(100,700), random(100,700), random(30, 80), random(30, 80), random(1,3), random(1,3), 3);
+  pesce2 = new pesce(random(100,700), random(100,700), random(30, 80), random(30, 80), random(1,3), random(1,3), 3);
+  pesce3 = new pesce (random(100,700), random(100,700), random(30, 80), random(30, 80), random(1,3), random(1,3), 3);
+  pesce4 = new pesce (random(100,700), random(100,700), random(30, 80), random(30, 80), random(1,3), random(1,3), 3);
+  pesce5 = new pesce (random(100,700), random(100,700), random(30, 80), random(30, 80), random(1,3), random(1,3), 3);
+  pesce6 = new pesce (random(100,700), random(100,700), random(30, 80), random(30, 80), random(1,3), random(1,3), 3);
+
+}
+
+void draw() {
+  background(255);
+  pesce1.muovi();
+  pesce2.muovi();
+  pesce3.muovi();
+  pesce4.muovi();
+  pesce5.muovi();
+  pesce6.muovi();
+  
+  pesce1.mostra();
+  pesce2.mostra();
+  pesce3.mostra();
+  pesce4.mostra();
+  pesce5.mostra();
+  pesce6.mostra();
+}
