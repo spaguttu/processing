@@ -1,0 +1,89 @@
+float xpalla=200;
+float ypalla=110;
+float racchetta;
+float speed=3;
+float gravi=0.2;
+float granpalla;
+float speedx =1;
+float y;
+float diff;
+float altradiff;
+int conta;
+int max;
+void nuovapalla() {
+  xpalla=200;
+  ypalla=110;
+  speed=3;
+  speedx=0;
+  altradiff=0;
+  gravi=0.2;
+  if (conta>max) {
+    max=conta;
+  }
+  conta=0;
+}
+
+void setup() {
+  size (400, 400);
+  background(0);
+  fill(175);
+  rectMode(CENTER);
+  ellipse(xpalla, ypalla, 20, 20);
+  rect(200, 370, 80, 20);
+}
+void draw() {
+  background(0);
+  ellipse(xpalla, ypalla, 20, 20);
+  rect(mouseX, 370, 80, 20);
+  textSize(32);
+  text(conta, 50, 50);
+  text(max, 300, 50);
+  speed=speed+gravi;
+  ypalla=ypalla+speed;
+  xpalla=xpalla+speedx;
+  if (speedx>100) {
+    speedx=10;
+  }
+  if (speedx<-10) {
+    speedx=-10;
+  }
+
+  if (ypalla>350 && (xpalla>mouseX-40 && xpalla<mouseX+40))
+  {
+    ypalla=350;
+    speedx=speedx+y;
+    if (millis()%2==1) {
+      diff=random(0.5, 2.5);
+      speedx=speedx+diff+altradiff;
+    } else {
+      speedx=speedx-diff-altradiff;
+    }
+    speed=-speed-0.15;
+    conta++;
+  }
+
+  if (ypalla>390) {
+    nuovapalla();
+  }
+  if (xpalla>400) {
+    xpalla=399;
+    speedx=-speedx;
+  }
+  if (xpalla<0) {
+    xpalla=1;
+    speedx=-speedx;
+  }
+  y=(mouseX-pmouseX)*0.3;
+  if (conta>5)
+    altradiff=1;
+  if (conta>10) {
+    altradiff=3;
+  }
+  if (conta>15) {
+    altradiff=5;
+  }
+  if (conta>20) {
+    altradiff=35;
+    gravi=0.65;
+  }
+}
