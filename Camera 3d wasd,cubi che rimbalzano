@@ -1,0 +1,62 @@
+color c1 = #FF0000;
+color c2 = #00FF00;
+color c3 = #0000FF;
+
+import queasycam.*;
+Scatola b1= new Scatola(50, 0, 50, 2, -2, 3, c1);
+Scatola b2= new Scatola(30, 0, 30, 1, 1, 5, c2);
+Scatola b3= new Scatola(10, 0, 10, 3, 1, -3, c3);
+QueasyCam cam;
+
+void setup() {
+  size (800, 600, P3D);
+  cam = new QueasyCam(this);
+  cam.speed = 0.5;              // default is 3
+  cam.sensitivity = 0.3;      // default is 2
+  cam.friction = 0.9;
+}
+
+void draw() {
+  background(0);
+  box(400); 
+  pushMatrix();
+  b1.mostra();
+  popMatrix();
+  pushMatrix();
+  b2.mostra();
+  popMatrix();
+  b3.mostra();
+  if (cam.position.y>190) {    cam.position.y=190;  }  if (cam.position.x>190) {    cam.position.x=190;  }  if (cam.position.z>190) {    cam.position.z=190;  }  if (cam.position.y<-190) {    cam.position.y=-190;  }  if (cam.position.x<-190) {    cam.position.x=-190;  }  if (cam.position.z<-190) {    cam.position.z=-190;  }}
+class Scatola 
+{
+  float xpos, ypos, zpos, velx, vely, velz;
+  color col;
+  Scatola(float x, float y, float z, float vx, float vy, float vz, color c) {
+    xpos=x;
+    ypos=y;
+    zpos=z;
+    velx=vx;
+    vely=vy;
+    velz=vz;
+    col=c;
+  }
+  void mostra() 
+  {
+    ypos=ypos+vely;
+    xpos=xpos+velx;
+    zpos=zpos+velz;
+    if (ypos >180 || ypos <-180) {
+      vely=-vely;
+    }
+    if (xpos >180 || xpos <-180) {
+      velx=-velx;
+    }
+    if (zpos >180 || zpos <-180) {
+      velz=-velz;
+    }
+    translate(xpos, ypos, zpos);
+    fill(col);
+    box(40);
+    fill(255);
+  }
+}
