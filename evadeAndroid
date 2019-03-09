@@ -1,0 +1,99 @@
+Cat cat;
+Cat cat2;
+Cat cat3;
+Play play;
+int conta;
+int max;
+float VEL=4;
+class Play {
+  PVector dim;
+  PVector pos;    
+  boolean colpito;
+  color c;
+  Play(PVector temppp, PVector tempdim, boolean tempcol, color tempc) {
+    pos=temppp;
+    dim=tempdim;
+    colpito=tempcol;
+    c=tempc;
+  }
+  void mostra() {
+    fill(c);
+    rect(mouseX, mouseY, dim.x, dim.y);
+    pos=new PVector(mouseX, mouseY);
+  }
+  void collisio() {
+    if ( (mouseX+dim.x/2)>(cat.pos.x-cat.dim.x/2)&&(mouseX-dim.x/2)<(cat.pos.x+cat.dim.x/2)&& (mouseY+dim.y/2>(cat.pos.y-cat.dim.y/2))&& (mouseY-dim.y/2)<(cat.pos.y+cat.dim.y/2)
+      || (mouseX+dim.x/2)>(cat2.pos.x-cat2.dim.x/2)&&(mouseX-dim.x/2)<(cat2.pos.x+cat2.dim.x/2)&& (mouseY+dim.y/2>(cat2.pos.y-cat2.dim.y/2))&& (mouseY-dim.y/2)<(cat2.pos.y+cat2.dim.y/2)
+      || (mouseX+dim.x/2)>(cat3.pos.x-cat3.dim.x/2)&&(mouseX-dim.x/2)<(cat3.pos.x+cat3.dim.x/2)&& (mouseY+dim.y/2>(cat3.pos.y-cat3.dim.y/2))&& (mouseY-dim.y/2)<(cat3.pos.y+cat3.dim.y/2)
+      ) 
+
+    {
+      play.colpito=true;
+    } else {
+      play.colpito=false;
+    }
+
+    if (play.colpito==true) {
+      play.c=color(255, 0, 0);
+
+      if (conta>max) {
+        max=conta;
+      }
+      conta=0;
+    } else {
+      play.c=color(255, 255, 255);
+      conta++;
+    }
+  }
+}
+class Cat {
+  PVector pos;
+  PVector vel;
+  PVector dim;
+  color c;
+
+  Cat(PVector tempp, PVector tempv, color tempc, PVector tempd) {
+    pos=tempp;
+    vel=tempv;
+    c=tempc;
+    dim=tempd;
+  }
+  void mostra() {
+    fill(c);
+    rect(pos.x, pos.y, dim.x, dim.y);
+  }
+  void muovi() {
+    pos.add(vel);
+    if (pos.x+dim.x/2>width || pos.x-dim.x/2<0) {
+      vel.x=-vel.x;
+    }
+    if (pos.y+dim.y/2>height || pos.y-dim.y/2<0) {
+      vel.y=-vel.y;
+    }
+  }
+}
+
+void setup() {
+  cat= new Cat(new PVector(400, 250), new PVector(VEL, VEL), color(255, 0, 0), new PVector (50, 300));
+  cat2=new Cat(new PVector(150, 50), new PVector(-VEL, VEL), color(0, 255, 0), new PVector (300, 50));
+  cat3=new Cat(new PVector(500, 400), new PVector(VEL, -VEL), color(0, 0, 255), new PVector (300, 300));
+  fullScreen();
+  play=new Play(new PVector (50, 50), new PVector (50, 50), false, color (255, 255, 255)); 
+  play.mostra();
+}
+
+void draw() {
+  background(0);
+  rectMode(CENTER);
+  play.mostra();
+  cat.mostra();
+  cat.muovi();
+  cat3.muovi();
+  cat3.mostra();
+  cat2.mostra();
+  cat2.muovi();
+  play.collisio();
+  textSize(32);
+  text(conta, 50, 50);
+  text(max, 300, 50);
+}
